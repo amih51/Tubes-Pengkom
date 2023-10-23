@@ -80,7 +80,6 @@ def beli_tiket(r, c, matrix, nama, jam):
     return 30
 
 
-
 def beli_makanan():
     print(f"Silahkan pilih makanan di bawah:\n\n")
 
@@ -160,6 +159,7 @@ def bayar():
     else:
         login()
         bayar()
+
 
 def bill():
     idx = 1
