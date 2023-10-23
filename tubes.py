@@ -10,9 +10,21 @@ c_3 = 6
 studio_3 = [[False for i in range(c_1 + 1)] for j in range(r_3 + 1)]
 
 # Deklarasi kondisi
+akun = {
+    "user": "user",
+    "username": "password",
+    "admin": "admin",
+    "uname": "pw"
+}
+tanggal = ""
 current_login = False
 harga = 0
-pesanan = []
+saldo_qris = 10000
+saldo_spay = 9000
+saldo_ovo = 8000
+saldo_vm = 7000
+pesanan_tiket = []
+pesanan_makanan = []
 
 # Fungsi
 def cls():
@@ -20,7 +32,7 @@ def cls():
         print()
 
 
-def beli_tiket(r, c, matrix):
+def beli_tiket(r, c, matrix, nama, jam):
     r += 1; c += 1
     for i in range(c):
         print("---", end='')
@@ -52,12 +64,18 @@ def beli_tiket(r, c, matrix):
     pilih_r = int(input("Pilih baris\t: "))
     pilih_c = int(input("Pilih kolom\t: "))
     
-    while studio_1[pilih_r][pilih_c]:
+    while matrix[pilih_r][pilih_c]:
         print(f"Kursi Telah dipesan\n")
         pilih_r = int(input("Pilih baris\t: "))
         pilih_c = int(input("Pilih kolom\t: "))
+    while pilih_c < 1 or pilih_c > c or pilih_r < 1 or pilih_r > r:
+        print("Nomor tidak valid")
+        pilih_r = int(input("Pilih baris\t: "))
+        pilih_c = int(input("Pilih kolom\t: "))
+
 
     matrix[pilih_r][pilih_c] = True
+    pesanan_tiket.append([nama, jam, pilih_r, pilih_c, 30])
 
     return 30
 
@@ -72,17 +90,21 @@ def beli_makanan():
 
     print(f"\n\nMasukkan sembarang untuk keluar")
     pilihan = input("Pilih nomor: ")
+    jumlah_item = int(input("Jumlah item: "))
     if pilihan == "1":
-        return 20
+        pesanan_makanan.append([f"Popcorn\t", jumlah_item, jumlah_item * 20])
+        return jumlah_item * 20
     elif pilihan == "2":
-        return 25
+        pesanan_makanan.append([f"Minum\t", jumlah_item, jumlah_item * 25])
+        return jumlah_item * 25
     elif pilihan == "3":
-        return 40
+        pesanan_makanan.append(["Popcorn + Minum", jumlah_item, jumlah_item * 40])
+        return jumlah_item * 40
     else:
         return 0
 
 
-def login(): # kurang cek benar / tidak
+def login(): 
     global current_login
     if current_login:
         print("Anda sudah login")
@@ -90,18 +112,66 @@ def login(): # kurang cek benar / tidak
         print(f"Login\n")
         uname = input(f"Masukkan Username\t: ")
         pw = input(f"Masukkan Password\t: ")
-        current_login = True
+        if uname in akun:
+            if akun[uname] == pw:
+                current_login = True
+            else:
+                login()
+        else:
+            print(f"Username tidak ditemukan\n")
+            login()
         cls()
         print(f"\nSelamat Anda berhasil login\n")
 
 
-def bayar(): # kurang metode bayar
+def bayar(): 
     global current_login
     if current_login:
-        print(f"Total harga adalah {harga}k.")
+        global saldo_qris
+        global saldo_spay
+        global saldo_ovo
+        global saldo_vm
+        bill()
+        print(f"\nPilih metode pembayaran di bawah:\n")
+        print(f"1. QRIS                 {saldo_qris}k")
+        print(f"2. Shopeepay            {saldo_spay}k")
+        print(f"3. Ovo                  {saldo_ovo}k")
+        print(f"4. Visa / Mastercard    {saldo_vm}k")
+        metode = input("Pilih Nomor: ").strip()
+        if metode == "1":
+            saldo_qris -= harga
+            print(f"Sisa saldo {saldo_qris}k")
+            print(f"Booking id: {tanggal}0001")
+        elif metode == "2":
+            saldo_spay -= harga
+            print(f"Sisa saldo {saldo_spay}k")
+            print(f"Booking id: {tanggal}0001")
+        elif metode == "3":
+            saldo_ovo -= harga
+            print(f"Sisa saldo {saldo_ovo}k")
+            print(f"Booking id: {tanggal}0001")
+        elif metode == "4":
+            saldo_vm -= harga
+            print(f"Sisa saldo {saldo_vm}k")
+            print(f"Booking id: {tanggal}0001")
+        else:
+            print("Pilihan tidak valid")
+            bayar()
     else:
         login()
         bayar()
+
+def bill():
+    idx = 1
+
+    print(f"\nNo.\tNama Item\tWaktu\tBaris\tKolom\tJumlah\tHarga")
+    for x in pesanan_tiket:
+        print(f"{idx}.\t{x[0]}\t{x[1]}\t{x[2]}\t{x[3]}\t1\t{x[4]}k")
+        idx += 1
+    for x in pesanan_makanan:
+        print(f"{idx}.\t{x[0]}\t\t\t\t{x[1]}\t{x[2]}k")
+        idx += 1
+    print(f"Total\t\t\t\t\t\t\t{harga}k\n")
 
 
 # main
@@ -114,6 +184,7 @@ while True:
     print("1. Beli Tiket")
     print("2. Beli Makanan")
     print("3. Bayar")
+    print("4. Keranjang Belanja")
     if not current_login:
         print("9. Login")
 
@@ -125,30 +196,30 @@ while True:
 
     elif pilihan == "1":
         cls()
+        tanggal = input("Masukkan tanggal dengan format yyyy/mm/dd: ")
         print(f"Silahkan pilih film (harga 30k)\n")
 
-        print(f"1. Spiderman \t12:00")
-        print(f"2. Superman \t15:00")
-        print(f"3. Batman \t19:00")
+        print(f"1. Revenger \t12:00")
+        print(f"2. Life of Po \t15:00")
+        print(f"3. Covid-19 \t19:00")
 
-        pilihan_film = int(input(f"\n\nMasukkan nomor: "))
+        print(f"\nMasukkan sembarang untuk keluar")
+        pilihan_film = int(input(f"Masukkan nomor: "))
         n = int(input("Jumlah tiket: "))
         if pilihan_film == 1:
             for i in range(n):
-                harga += beli_tiket(r_1, c_1, studio_1)
-        if pilihan_film == 2:
+                harga += beli_tiket(r_1, c_1, studio_1, "Revenger", "12:00")
+        elif pilihan_film == 2:
             for i in range(n):
-                harga += beli_tiket(r_2, c_2, studio_2)
-        if pilihan_film == 3:
+                harga += beli_tiket(r_2, c_2, studio_2, "Life of Po", "15:00")
+        elif pilihan_film == 3:
             for i in range(n):
-                harga += beli_tiket(r_3, c_3, studio_3)
+                harga += beli_tiket(r_3, c_3, studio_3, "Covid-19", "19:00")
         cls()
 
     elif pilihan == "2":
         cls()
-        n = int(input("Jumlah makanan: "))
-        for i in range(n):
-            harga += beli_makanan()
+        harga += beli_makanan()
         cls()
 
     elif pilihan == "3": 
@@ -157,6 +228,10 @@ while True:
 
         print(f"\nTerima kasih telah menggunakan aplikasi ini")
         break
+
+    elif pilihan == "4":
+        cls()
+        bill()
 
     else:
         if harga == 0:
