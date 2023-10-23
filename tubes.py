@@ -177,6 +177,8 @@ def bill():
 # main
 cls()
 while True:
+    if pesanan_makanan or pesanan_tiket:
+        bill()
 
     print(f"## SELAMAT DATANG DI XVI ##\n")
     print(f"Silahkan pilih menu di bawah:\n\n")
@@ -184,11 +186,11 @@ while True:
     print("1. Beli Tiket")
     print("2. Beli Makanan")
     print("3. Bayar")
-    print("4. Keranjang Belanja")
+    # print("4. Keranjang Belanja")
     if not current_login:
         print("9. Login")
 
-    print(f"\n\nTotal harga {harga}k\n\nMasukkan sembarang untuk keluar")
+    print(f"\n\nMasukkan sembarang untuk keluar")
     pilihan = input("Pilih nomor: ")
     if pilihan == "9":
         cls()
@@ -229,9 +231,9 @@ while True:
         print(f"\nTerima kasih telah menggunakan aplikasi ini")
         break
 
-    elif pilihan == "4":
-        cls()
-        bill()
+    # elif pilihan == "4":
+    #     cls()
+    #     bill()
 
     else:
         if harga == 0:
