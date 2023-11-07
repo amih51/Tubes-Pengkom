@@ -26,6 +26,17 @@ saldo_vm = 7000
 pesanan_tiket = []
 pesanan_makanan = []
 
+for i in range(4, 6):
+    for j in range(4, 8):
+        studio_1[i][j] = True
+studio_1[3][4] = True
+studio_1[3][2] = True
+studio_1[3][5] = True
+studio_1[3][8] = True
+studio_1[6][1] = True
+studio_1[6][2] = True
+studio_1[6][3] = True
+
 # Fungsi
 def cls():
     for i in range(100):
@@ -207,14 +218,16 @@ while True:
 
         print(f"\nMasukkan sembarang untuk keluar")
         pilihan_film = int(input(f"Masukkan nomor: "))
-        n = int(input("Jumlah tiket: "))
         if pilihan_film == 1:
+            n = int(input("Jumlah tiket: "))
             for i in range(n):
                 harga += beli_tiket(r_1, c_1, studio_1, "Revenger", "12:00")
         elif pilihan_film == 2:
+            n = int(input("Jumlah tiket: "))
             for i in range(n):
                 harga += beli_tiket(r_2, c_2, studio_2, "Life of Po", "15:00")
         elif pilihan_film == 3:
+            n = int(input("Jumlah tiket: "))
             for i in range(n):
                 harga += beli_tiket(r_3, c_3, studio_3, "Covid-19", "19:00")
         cls()
