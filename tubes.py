@@ -143,7 +143,7 @@ def bayar():
         global saldo_vm
         bill()
         print(f"\nPilih metode pembayaran di bawah:\n")
-        print(f"1. QRIS                 {saldo_qris}k")
+        print(f"1. Gopay                {saldo_qris}k")
         print(f"2. Shopeepay            {saldo_spay}k")
         print(f"3. Ovo                  {saldo_ovo}k")
         print(f"4. Visa / Mastercard    {saldo_vm}k")
@@ -191,11 +191,25 @@ while True:
     if pesanan_makanan or pesanan_tiket:
         bill()
 
-    print(f"## SELAMAT DATANG DI XVI ##\n")
-    print(f"Silahkan pilih menu di bawah:\n\n")
+    # print(f"## SELAMAT DATANG DI XVI ##\n")
+    # print(f"Silahkan pilih menu di bawah:\n\n")
+    # basic example for multi-line printing 
+    print( 
+    '''
+                          _                  _        
+  ___ ___     _    _   _ (_)   __           (_) _   _ 
+/' _ ` _ `\ /'_`\ ( ) ( )| | /'__`\   (`\/')| |( ) ( )
+| ( ) ( ) |( (_) )| \_/ || |(  ___/    >  < | || \_/ |
+(_) (_) (_)`\___/'`\___/'(_)`\____)   (_/\_)(_)`\___/'
+                                                                                               
+    '''
+        ) 
 
+
+    
     print("1. Beli Tiket")
     print("2. Beli Makanan")
+    print("3. Bayar")
     print("3. Bayar")
     # print("4. Keranjang Belanja")
     if not current_login:
