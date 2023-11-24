@@ -210,7 +210,6 @@ while True:
     print("1. Beli Tiket")
     print("2. Beli Makanan")
     print("3. Bayar")
-    print("3. Bayar")
     # print("4. Keranjang Belanja")
     if not current_login:
         print("9. Login")
